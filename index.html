@@ -10,51 +10,38 @@
 <body>
     <div id="app">
         <div class="head">
-            <div class="dl" style="text-align: center;">
-                <p>
-                    <el-radio v-model="dalao" @change="click" v-for="(item,index) in label" :label="index">{{item}}</el-radio>
-                </p>
-                <p>
-                    <el-checkbox-group v-model="checkList">
-                        <el-checkbox v-for="(item,i) in quanti" :label="item"></el-checkbox>
-                    </el-checkbox-group>
-                </p>
+            <div style="text-align: center;border-bottom: solid 1px;padding: 1em;">
+                <h3 >群里大佬名单</h3>
+                <el-checkbox-group v-model="checkList">
+                    <el-checkbox v-for="(item,i) in quanti"  @change="click(item,i)" :label="item.name"></el-checkbox>
+                </el-checkbox-group>
             </div>
-            <div class="left">
-
-            </div>
-            <div class="rigth">
-
+            <div class="" style="width: 100%;display: block;height: 300px;">
+                <div class="left" style="width: 49%;float: left;border: 1px red solid;">
+                     <h3 style="text-align: center;"><el-radio v-model="init" label="1">带队大佬</el-radio></h3>
+                     <p style="text-align: center;">
+                         <span v-for="(item,i) in dalaolist" @click="pop(i)">{{item.name}}<span style="color: red;">x</span>{{dalaolist.length == i + 1 ?'': '、'}}</span>
+                     </p>
+                </div>
+                <div class="rigth" style="width: 49%;float: left;border: 1px red solid;">
+                    <h3 style="text-align: center;"><el-radio v-model="init" label="2">参加队员</el-radio></h3>
+                    <p style="text-align: center;">
+                        <span v-for="(item,i) in duiyuanlist" @click="pop(i)">{{item.name}}<span style="color: red;">x</span></span>
+                        
+                    </p>
+                </div>
             </div>
         </div>
-        <div class="bottom">
-            <div class="">
-                <h3>队长：李四</h3>
-                <p>队员：<span>李白</span></p>
-            </div>
+        <div class="bottom" style="border: 1px red solid;">
+            <el-row :gutter="20" style="text-align: center;">
+                <el-col :span="6"><div class="grid-content bg-purple">22222</div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">3333</div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">3333</div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">444</div></el-col>
+              </el-row>
         </div>
     </div>
 </body>
-<style>
-    .head {
-        width: 100%;
-
-    }
-
-    .left,
-    .rigth {
-        width: 50%;
-        border: 1px #eee solid;
-    }
-
-    .left {
-        border: 1px #eee solid;
-    }
-
-    .rigth {
-
-    }
-</style>
 
 <!-- import Vue before Element -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -65,25 +52,26 @@
         el: '#app',
         data: () => {
             return {
-                label: ['大佬','队员'],
+                init: '1',
                 quanti: [
-                    '黄如义',
-                    '张咏',
-                    '李世勇',
-                    '林贤志',
-                    '顾总',
-                    '刘会娟',
-                    '何高建',
-                    '吴顺',
-                    '谢成林',
-                    '陈鹏',
-                    '胡堪成',
-                    '凡慧娟',
-                    '刘浪',
-                    '潘攀'
+                    {name:'黄如义',is: false},
+                    {name:'张咏',is: false},
+                    {name:'李世勇',is: false},
+                    {name:'林贤志',is: false},
+                    {name:'顾总',is: false},
+                    {name:'刘会娟',is: false},
+                    {name:'何高建',is: false},
+                    {name:'吴顺',is: false},
+                    {name:'谢成林',is: false},
+                    {name:'陈鹏',is: false},
+                    {name:'胡堪成',is: false},
+                    {name:'凡慧娟',is: false},
+                    {name:'刘浪',is: false},
+                    {name:'潘攀',is: false}
                 ],
-                checkList: '',
-                dalao: '',
+                checkList: [],
+                dalaolist: [],
+                duiyuanlist: [],
                 list: {
 
                 },
@@ -93,8 +81,23 @@
 
         },
         methods: {
-            click(){
-                console.log(1111)
+            click(item,i){
+                console.log(item)
+                this.quanti[i].is = !this.quanti[i].is
+                if(this.init == 1) {
+                    this.dalaolist.push(item)
+                } else {
+                    this.duiyuanlist.push(item)
+                }
+            },
+            pop(i){
+                console.log(i)
+                if(this.init == 1) {
+                    this.dalaolist = this.dalaolist.slice(i,-1)
+                    console.log(this.dalaolist)
+                } else {
+                    this.duiyuanlist = this.duiyuanlist.slice(i,-1)
+                }
             }
         }
     })

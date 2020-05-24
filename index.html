@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="head">
+            <div class="dl" style="text-align: center;">
+                <p>
+                    <el-radio v-model="dalao" @change="click" v-for="(item,index) in label" :label="index">{{item}}</el-radio>
+                </p>
+                <p>
+                    <el-checkbox-group v-model="checkList">
+                        <el-checkbox v-for="(item,i) in quanti" :label="item"></el-checkbox>
+                    </el-checkbox-group>
+                </p>
+            </div>
+            <div class="left">
+
+            </div>
+            <div class="rigth">
+
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="">
+                <h3>队长：李四</h3>
+                <p>队员：<span>李白</span></p>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .head {
+        width: 100%;
+
+    }
+
+    .left,
+    .rigth {
+        width: 50%;
+        border: 1px #eee solid;
+    }
+
+    .left {
+        border: 1px #eee solid;
+    }
+
+    .rigth {
+
+    }
+</style>
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: () => {
+            return {
+                label: ['大佬','队员'],
+                quanti: [
+                    '黄如义',
+                    '张咏',
+                    '李世勇',
+                    '林贤志',
+                    '顾总',
+                    '刘会娟',
+                    '何高建',
+                    '吴顺',
+                    '谢成林',
+                    '陈鹏',
+                    '胡堪成',
+                    '凡慧娟',
+                    '刘浪',
+                    '潘攀'
+                ],
+                checkList: '',
+                dalao: '',
+                list: {
+
+                },
+
+
+            }
+
+        },
+        methods: {
+            click(){
+                console.log(1111)
+            }
+        }
+    })
+</script>
+
+</html>

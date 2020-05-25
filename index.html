@@ -13,26 +13,31 @@
             <div style="text-align: center;border-bottom: solid 1px;padding: 1em;">
                 <h3 >群里大佬名单</h3>
                 <el-checkbox-group v-model="checkList">
-                    <el-checkbox v-for="(item,i) in quanti"  @change="click(item,i)" :label="item.name"></el-checkbox>
+                    <el-checkbox v-for="(item,i) in quanti"  @change="click(item,i)" :label="item.name" :disabled="item.is"></el-checkbox>
                 </el-checkbox-group>
             </div>
             <div class="" style="width: 100%;display: block;height: 300px;">
-                <div class="left" style="width: 49%;float: left;border: 1px red solid;">
-                     <h3 style="text-align: center;"><el-radio v-model="init" label="1">带队大佬</el-radio></h3>
+                <div class="left" style="width: 49%;float: left;border: 1px red solid;height: 300px;">
+                     <h3 style="text-align: center;"><el-radio v-model="init" label="1">带队大佬</el-radio><span @click="go"><el-button type="danger" size="mini" @click="claer(1)">重置</el-button></span></h3>
                      <p style="text-align: center;">
-                         <span v-for="(item,i) in dalaolist" @click="pop(i)">{{item.name}}<span style="color: red;">x</span>{{dalaolist.length == i + 1 ?'': '、'}}</span>
+                         <span v-for="(item,i) in dalaolist">{{item.name}}<span style="color: red;" @click="pop(item.name,i)">x</span>{{dalaolist.length == i + 1 ? '': '、'}}</span>
                      </p>
                 </div>
-                <div class="rigth" style="width: 49%;float: left;border: 1px red solid;">
-                    <h3 style="text-align: center;"><el-radio v-model="init" label="2">参加队员</el-radio></h3>
+                <div class="rigth" style="width: 49%;float: left;border: 1px red solid;height: 300px;">
+                    <h3 style="text-align: center;"><el-radio v-model="init" label="2">参加队员</el-radio><span @click="go"><el-button type="danger" size="mini" @click="claer(2)">重置</el-button></span></h3>
                     <p style="text-align: center;">
-                        <span v-for="(item,i) in duiyuanlist" @click="pop(i)">{{item.name}}<span style="color: red;">x</span></span>
+                        <span v-for="(item,i) in duiyuanlist">{{item.name}}<span style="color: red;" @click="pop(item.name,i)">x</span>{{duiyuanlist.length == i + 1 ? '': '、'}}</span>
                         
                     </p>
                 </div>
             </div>
         </div>
-        <div class="bottom" style="border: 1px red solid;">
+        <div class="" style="text-align: center;margin: 20px 0;">
+            <span @click="go"><el-button type="success">开始随机分配队友</el-button></span>
+            <span @click="go"><el-button type="primary">添加名单人员</el-button></span>
+        </div>
+        <div class="bottom" style="border: 1px red solid;height: 400px;">
+            <h3 style="text-align: center;">分配结果</h3>
             <el-row :gutter="20" style="text-align: center;">
                 <el-col :span="6"><div class="grid-content bg-purple">22222</div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">3333</div></el-col>
@@ -44,9 +49,9 @@
 </body>
 
 <!-- import Vue before Element -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/locale/af-ZA.min.js"></script>
 <script>
     new Vue({
         el: '#app',
@@ -85,18 +90,40 @@
                 console.log(item)
                 this.quanti[i].is = !this.quanti[i].is
                 if(this.init == 1) {
+                    if(this.dalaolist.includes(item)){
+                        alert('已经选过该人员')
+                        return
+                    } 
                     this.dalaolist.push(item)
                 } else {
+                    if(this.duiyuanlist.includes(item)){
+                        alert('已经选过该人员')
+                        return
+                    } 
                     this.duiyuanlist.push(item)
                 }
             },
-            pop(i){
+            pop(name,i){
                 console.log(i)
                 if(this.init == 1) {
-                    this.dalaolist = this.dalaolist.slice(i,-1)
+                    this.dalaolist = this.dalaolist.filter((n,ix)=>{return ix != i})
                     console.log(this.dalaolist)
                 } else {
-                    this.duiyuanlist = this.duiyuanlist.slice(i,-1)
+                    this.duiyuanlist = this.duiyuanlist.filter((n,ix)=>{return ix != i})
+                }
+                this.quanti.forEach(element => {
+                    if(element.name == name) element.is = !element.is
+                });
+            },
+            go(){
+                console.log(11222)
+
+            },
+            claer(i){
+                if(i ==1) {
+                    this.dalaolist = []
+                } else {
+                    this.duiyuanlist = []
                 }
             }
         }
